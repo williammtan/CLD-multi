@@ -91,4 +91,4 @@ def admm(model,admm_params):
            metrics['val_acc'].append(classification_accuracy(Y_hat_val, model.ytst))
 
 
-    return v, metrics, model.seed   
+    return v, metrics
