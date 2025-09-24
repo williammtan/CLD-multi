@@ -3,6 +3,7 @@ import jax.numpy as jnp
 from optimizers.pcg import pcg
 from preconditioner.nystrom import Nys_Precond,rand_nys_appx
 from utils.metric_utils import mse, classification_accuracy
+from utils.model_utils import optimal_weights_transform
 from utils.proximal_utils import batch_proxl2_tensor
 
 def admm(model,admm_params):
@@ -83,12 +84,20 @@ def admm(model,admm_params):
         if validate == True:
            y_hat = (model.batch_matvec_F(u)).T
            W1, W2 = model.get_ncvx_weights(v)
-           Y_hat_val = model.stacked_predict(W1, W2)
+           Y_hat_val = model.stacked_predict(model.Xtst, W1, W2)
            
            metrics['train_loss'].append(mse(y_hat, model.y))
            metrics['val_loss'].append(mse(Y_hat_val, model.ytst))
            metrics['train_acc'].append(classification_accuracy(y_hat, model.y))
            metrics['val_acc'].append(classification_accuracy(Y_hat_val, model.ytst))
 
+    model.u = u
+    model.v = v
+    model.s = s
+
+    # Save the weights in the model
+    W1, w2 = optimal_weights_transform(u[0], u[1], model.P_S, d)
+    model.theta1 = W1
+    model.theta2 = w2
 
     return v, metrics

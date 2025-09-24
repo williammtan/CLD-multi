@@ -13,6 +13,9 @@ class CVX_ReLU_MLP(Convex_MLP):
         self.e_diags = e_diags
         self.Xtst = Xtst
         self.ytst = ytst
+        
+        self.theta1 = None
+        self.theta2 = None
     
     def init_model(self):
         self.d_diags, self.seed = get_hyperplane_cuts(self.X, self.P_S, 
@@ -92,11 +95,11 @@ class CVX_ReLU_MLP(Convex_MLP):
         W2 = W2.at[i,:].set(w2) 
       return W1, W2
     
-    def predict(self, w1, w2):
-      return jax.nn.relu(self.Xtst@w1)@w2
+    def predict(self, X, w1, w2):
+      return jax.nn.relu(X@w1)@w2
     
-    def stacked_predict(self, W1, W2):
-      return (vmap(self.predict)(W1, W2)).T
+    def stacked_predict(self, X, W1, W2):
+      return (vmap(lambda w1, w2: self.predict(X, w1, w2))(W1, W2)).T
     
     def _tree_flatten(self):
         children = (self.X, self.y, self.beta, self.seed, 
