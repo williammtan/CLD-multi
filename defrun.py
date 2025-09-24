@@ -71,7 +71,7 @@ def run(model_name, data_dir, cronos_params, adamW_params, opt_seed, data_seed, 
     
     # Run twice to get compiled version 
     for i in range(2):
-        (u1, u2), metrics = admm(model, cronos_params)
+        _, metrics = admm(model, cronos_params)
         if i == 1:
             # End timing after the actual training run (not compilation)
             cronos_end_time = time.time()
