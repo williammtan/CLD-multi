@@ -85,8 +85,8 @@ def admm(model,admm_params):
            W1, W2 = model.get_ncvx_weights(v)
            Y_hat_val = model.stacked_predict(W1, W2)
            
-           metrics['train_loss'].append(mse(y_hat, model.y))
-           metrics['val_loss'].append(mse(Y_hat_val, model.ytst))
+           metrics['train_loss'].append(mse(y_hat, model.y, model.n_classes))
+           metrics['val_loss'].append(mse(Y_hat_val, model.ytst, model.n_classes))
            metrics['train_acc'].append(classification_accuracy(y_hat, model.y))
            metrics['val_acc'].append(classification_accuracy(Y_hat_val, model.ytst))
 
