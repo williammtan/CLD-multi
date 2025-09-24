@@ -5,7 +5,7 @@ from jax import jit
 @jit
 def mse(y_hat, y_true):
      # Compute the squared difference between predictions and true labels
-    y_one_hot = jax.nn.one_hot(y_true, 10)
+    y_one_hot = jax.nn.one_hot(y_true, y_true.shape[1])
     loss = jnp.sum((y_hat - y_one_hot) ** 2)
 
     # Take the mean over all samples
