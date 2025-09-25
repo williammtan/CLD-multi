@@ -56,7 +56,7 @@ def run(model_name, data_dir, cronos_params, adamW_params, opt_seed, data_seed, 
 
     ##### CRONOS #####
     # Number of neurons in the convex network 
-    num_neurons = cronos_params.get('P_S', 10)
+    num_neurons = cronos_params.get('P_S', 64)
     
     # Create the convex neural network model
     model = CVX_ReLU_MLP(Atr, ytr, num_classes, num_neurons, cronos_params['beta'], cronos_params['rho'], jax.random.PRNGKey(0))

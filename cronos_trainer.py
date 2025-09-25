@@ -47,7 +47,7 @@ model_names = args.model_name
 # Tune rho, admm_iters, pcg_iters, take out jit for adamW
 # pcg_iters most important
 cronos_params = dict(
-    rank=20, beta=0.001, rho=0.0001,
+    rank=20, beta=0.001, rho=0.1,
     gamma_ratio=1, admm_iters=6, pcg_iters=32,
     check_opt=False
 )
