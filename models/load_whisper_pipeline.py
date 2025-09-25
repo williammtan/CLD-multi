@@ -47,6 +47,8 @@ def custom_retrieve_init_tokens_creator(processor, class_names, cld_type):
         elif cld_type == "cvx":
             pooled = hidden.mean(dim=1).cpu().detach().numpy()  # Move to CPU and numpy for predict
             logits = self.lang_detect_head.stacked_predict(pooled, self.lang_detect_head.theta1, self.lang_detect_head.theta2)
+            print(logits)
+            print(logits.shape)
             # NOTE: current CVX head supports binary only
             return logits.argmax(dim=-1).tolist()
 
