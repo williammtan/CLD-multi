@@ -96,7 +96,7 @@ def admm(model,admm_params):
     model.s = s
 
     # Save the weights in the model
-    W1, w2 = optimal_weights_transform(u[0], u[1], model.P_S, d)
+    W1, w2 = model.get_ncvx_weights(v)
     model.theta1 = W1
     model.theta2 = w2
 
